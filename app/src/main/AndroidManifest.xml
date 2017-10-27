@@ -18,7 +18,9 @@
         </activity>
         <activity android:name=".Register" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".AddMakul"></activity>
+        <activity android:name=".AddMakul" />
+        <activity android:name=".ShowMakul" />
+        <activity android:name=".ShowMakulAdapter"></activity>
     </application>
 
 </manifest>

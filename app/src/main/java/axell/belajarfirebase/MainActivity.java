@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         btnShowData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), ShowMakul.class);
+                startActivity(intent);
             }
         });
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -80,9 +81,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        finish();
+//    }
 }

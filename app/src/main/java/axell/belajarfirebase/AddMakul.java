@@ -58,7 +58,7 @@ public class AddMakul extends AppCompatActivity {
 //        databaseReference.child("users").child(userId).child("makul").setValue(makul); //Kode disamping hanya akan me-replace data makul yang sudah ada dengan yang baru
         Map<String, Object> param = new HashMap<>();
         param.put("/users/" + userId + "/makul/" + id_makul, makul);
-        databaseReference.updateChildren(param).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.updateChildren(param).addOnCompleteListener(new OnCompleteListener<Void>() { //ekuivalen dengan insert into makul (id, nama_makul, dosen) ...., dimana makul itu ada di dalam users
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 txtMakul.setText("");
