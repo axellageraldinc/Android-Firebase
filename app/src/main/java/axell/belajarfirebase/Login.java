@@ -83,7 +83,7 @@ public class Login extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     String userId = task.getResult().getUser().getUid();
-                    databaseReference.child("users").child(userId).addValueEventListener(new ValueEventListener() {  //ekuivalen dengan SELECT * from users where userId=?
+                    databaseReference.child("users").child(userId).child("biodata").addValueEventListener(new ValueEventListener() {  //ekuivalen dengan SELECT * from users where userId=?
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
@@ -93,7 +93,7 @@ public class Login extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            
+
                         }
                     });
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

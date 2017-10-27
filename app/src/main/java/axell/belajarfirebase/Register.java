@@ -3,7 +3,6 @@ package axell.belajarfirebase;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +25,7 @@ public class Register extends AppCompatActivity {
     private String fullname = "fullname";
 
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     EditText txtEmail, txtPassword, txtName;
     Button btnRegister;
@@ -37,7 +36,7 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
@@ -73,7 +72,7 @@ public class Register extends AppCompatActivity {
                     txtName.setText("");
                     userId = task.getResult().getUser().getUid(); //ambil userId yang barusan di-register
                     User user = new User(fullname);
-                    firebaseDatabase.child(users).child(userId).setValue(user); //ekuivalen dengan insert into users where users.userId = authentication.userId
+                    databaseReference.child(users).child(userId).child("biodata").setValue(user); //ekuivalen dengan insert into users where users.userId = authentication.userId
                 } else{
                     Toast.makeText(Register.this, "User registration failed!", Toast.LENGTH_SHORT).show();
                 }

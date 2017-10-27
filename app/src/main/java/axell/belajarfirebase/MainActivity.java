@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         if(firebaseUser!=null){
             final String userId = firebaseUser.getUid();
             final String email = firebaseUser.getEmail();
-            databaseReference.child("users").child(userId).addValueEventListener(new ValueEventListener() { //ekuivalen dengan SELECT * from users where userId=?
+            databaseReference.child("users").child(userId).child("biodata").addValueEventListener(new ValueEventListener() { //ekuivalen dengan SELECT * from users where userId=?
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
         btnAddData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), AddMakul.class);
+                startActivity(intent);
             }
         });
         btnShowData.setOnClickListener(new View.OnClickListener() {
