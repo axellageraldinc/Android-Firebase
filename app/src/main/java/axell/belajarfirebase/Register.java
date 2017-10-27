@@ -73,7 +73,7 @@ public class Register extends AppCompatActivity {
                     txtName.setText("");
                     userId = task.getResult().getUser().getUid(); //ambil userId yang barusan di-register
                     User user = new User(fullname);
-                    firebaseDatabase.child(users).child(userId).setValue(user); //insert ke users di Firebase Database
+                    firebaseDatabase.child(users).child(userId).setValue(user); //ekuivalen dengan insert into users where users.userId = authentication.userId
                 } else{
                     Toast.makeText(Register.this, "User registration failed!", Toast.LENGTH_SHORT).show();
                 }

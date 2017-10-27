@@ -83,7 +83,7 @@ public class Login extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     String userId = task.getResult().getUser().getUid();
-                    databaseReference.child("users").child(userId).addValueEventListener(new ValueEventListener() { //Ambil spesifik data (disini ambil full name)
+                    databaseReference.child("users").child(userId).addValueEventListener(new ValueEventListener() {  //ekuivalen dengan SELECT * from users where userId=?
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
@@ -93,15 +93,21 @@ public class Login extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            Toast.makeText(Login.this, "Error : " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            
                         }
                     });
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 } else{
                     Toast.makeText(Login.this, task.getResult().toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

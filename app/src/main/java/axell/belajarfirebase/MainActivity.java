@@ -19,7 +19,7 @@ import axell.belajarfirebase.Model.User;
 
 public class MainActivity extends AppCompatActivity {
     TextView txtUserId, txtEmail, txtFullname;
-    Button btnAddData, btnShowData;
+    Button btnAddData, btnShowData, btnLogout;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
     private FirebaseUser firebaseUser;
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         txtFullname = findViewById(R.id.txtFullname);
         btnAddData = findViewById(R.id.btnAddData);
         btnShowData = findViewById(R.id.btnShowData);
+        btnLogout = findViewById(R.id.btnLogout);
 
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         if(firebaseUser!=null){
             final String userId = firebaseUser.getUid();
             final String email = firebaseUser.getEmail();
-            databaseReference.child("users").child(userId).addValueEventListener(new ValueEventListener() {
+            databaseReference.child("users").child(userId).addValueEventListener(new ValueEventListener() { //ekuivalen dengan SELECT * from users where userId=?
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
@@ -66,6 +67,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+            }
+        });
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firebaseAuth.signOut();
+                Intent intent = new Intent(getApplicationContext(), Login.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
     }
