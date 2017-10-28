@@ -54,7 +54,7 @@ public class AddMakul extends AppCompatActivity {
         String nama_makul = txtMakul.getText().toString();
         String dosen = txtDosen.getText().toString();
         String userId = firebaseUser.getUid();
-        Makul makul = new Makul(nama_makul, dosen);
+        Makul makul = new Makul(id_makul, nama_makul, dosen);
 //        databaseReference.child("users").child(userId).child("makul").setValue(makul); //Kode disamping hanya akan me-replace data makul yang sudah ada dengan yang baru
         Map<String, Object> param = new HashMap<>();
         param.put("/users/" + userId + "/makul/" + id_makul, makul);

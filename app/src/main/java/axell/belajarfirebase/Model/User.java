@@ -5,11 +5,15 @@ package axell.belajarfirebase.Model;
  */
 
 public class User {
-    private String name;
+    private String id, name;
 
     public User(){}
 
     public User(String name){
+        this.name = name;
+    }
+    public User(String id, String name){
+        this.id = id;
         this.name = name;
     }
 

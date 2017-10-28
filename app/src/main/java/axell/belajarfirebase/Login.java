@@ -96,8 +96,9 @@ public class Login extends AppCompatActivity {
 
                         }
                     });
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
+                    finish();
                 } else{
                     Toast.makeText(Login.this, task.getResult().toString(), Toast.LENGTH_SHORT).show();
                 }
@@ -105,9 +106,9 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        finish();
+//    }
 }

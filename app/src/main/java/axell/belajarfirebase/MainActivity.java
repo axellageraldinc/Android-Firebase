@@ -1,6 +1,7 @@
 package axell.belajarfirebase;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +24,20 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
     private FirebaseUser firebaseUser;
+    private FirebaseAuth.AuthStateListener authStateListener;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(authStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(authStateListener!=null)
+            firebaseAuth.removeAuthStateListener(authStateListener);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,25 +52,31 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        if(firebaseUser!=null){
-            final String userId = firebaseUser.getUid();
-            final String email = firebaseUser.getEmail();
-            databaseReference.child("users").child(userId).child("biodata").addValueEventListener(new ValueEventListener() { //ekuivalen dengan SELECT * from users where userId=?
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    User user = dataSnapshot.getValue(User.class);
-                    String fullname = user.getName();
-                    txtUserId.setText(userId);
-                    txtEmail.setText(email);
-                    txtFullname.setText(fullname);
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                firebaseUser = firebaseAuth.getCurrentUser();
+                if(firebaseUser!=null){
+                    final String userId = firebaseUser.getUid();
 
-                }
+                    final String email = firebaseUser.getEmail();
+                    databaseReference.child("users").child(userId).child("biodata").addValueEventListener(new ValueEventListener() { //ekuivalen dengan SELECT * from users where userId=?
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            User user = dataSnapshot.getValue(User.class);
+                            String fullname = user.getName();
+                            txtUserId.setText(userId);
+                            txtEmail.setText(email);
+                            txtFullname.setText(fullname);
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
             });
         }
+            }
+        };
 
         btnAddData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        finish();
-//    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

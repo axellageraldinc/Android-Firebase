@@ -20,7 +20,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".AddMakul" />
         <activity android:name=".ShowMakul" />
-        <activity android:name=".ShowMakulAdapter"></activity>
+        <activity android:name=".ShowMakulAdapter" />
+        <activity android:name=".UpdateMakul"></activity>
     </application>
 
 </manifest>
