@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,7 +25,7 @@ import axell.belajarfirebase.Model.Makul;
 public class UpdateMakul extends AppCompatActivity {
     EditText txtMakul, txtDosen;
     TextView txtMakulId;
-    Button btnUpdate;
+    Button btnUpdate, btnDelete;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
@@ -41,6 +42,7 @@ public class UpdateMakul extends AppCompatActivity {
         txtDosen = findViewById(R.id.txtDosen);
         txtMakulId = findViewById(R.id.txtMakulId);
         btnUpdate = findViewById(R.id.btnUpdate);
+        btnDelete = findViewById(R.id.btnDelete);
 
         Intent intent = getIntent();
         final String id_makul = intent.getStringExtra("id_makul");
@@ -62,16 +64,38 @@ public class UpdateMakul extends AppCompatActivity {
                 });
             }
         });
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                databaseReference.child("users").child(firebaseUser.getUid()).child("makul").child(txtMakulId.getText().toString()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()) {
+                            Toast.makeText(UpdateMakul.this, "Makul berhasil dihapus!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else{
+                            Toast.makeText(UpdateMakul.this, "Gagal menghapus makul!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void SetEditText(){
         databaseReference.child("users").child(firebaseUser.getUid()).child("makul").child(txtMakulId.getText().toString()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Makul makul = dataSnapshot.getValue(Makul.class);
-                txtMakulId.setText(makul.getId());
-                txtMakul.setText(makul.getNama_makul());
-                txtDosen.setText(makul.getDosen());
+                try{
+                    Makul makul = dataSnapshot.getValue(Makul.class);
+                    txtMakulId.setText(makul.getId());
+                    txtMakul.setText(makul.getNama_makul());
+                    txtDosen.setText(makul.getDosen());
+                } catch (Exception ex){
+                    System.out.println("Gagal onDataChange SetEditText : " + ex.toString());
+                }
+
             }
 
             @Override
