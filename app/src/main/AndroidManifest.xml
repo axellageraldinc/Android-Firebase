@@ -22,6 +22,12 @@
         <activity android:name=".ShowMakul" />
         <activity android:name=".ShowMakulAdapter" />
         <activity android:name=".UpdateMakul"></activity>
+        <service
+            android:name=".FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

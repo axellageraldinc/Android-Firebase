@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import axell.belajarfirebase.Model.User;
 
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FirebaseMessaging.getInstance().subscribeToTopic("makul_on_write");
+        FirebaseMessaging.getInstance().subscribeToTopic("makul_on_delete");
         txtUserId = findViewById(R.id.txtUserId);
         txtEmail = findViewById(R.id.txtEmail);
         txtFullname = findViewById(R.id.txtFullname);
